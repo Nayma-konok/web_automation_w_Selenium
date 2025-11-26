@@ -78,6 +78,15 @@ permanent_address_field.send_keys(permanentaddress)
 submit_button=driver.find_element(By.ID, "submit")
 driver.execute_script("arguments[0].click();", submit_button)
 
+#locate the upload and download section and download button
+upload_and_download = WebDriverWait(driver, 10).until(
+    EC.visibility_of_element_located((By.ID, "item-7"))
+)
+upload_and_download.click()
+download_butoon=driver.find_element(By.ID, "downloadButton")
+driver.execute_script("arguments[0].click();", download_butoon)
+
+
 
 input("press enter to closs the browser")
 driver.quit()
