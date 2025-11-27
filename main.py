@@ -16,6 +16,8 @@ class WebAutomation:
 
         chrome_options = Options()
         chrome_options.add_argument("--disable-search-engine-choice-screen")
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--disable-software-rasterizer")
 
         prefs = {'download.default_directory': download_path}
         chrome_options.add_experimental_option('prefs', prefs)
@@ -23,9 +25,9 @@ class WebAutomation:
         service = Service(chrome_driver_path)
         self.driver = webdriver.Chrome(options=chrome_options, service=service)
         
-    def login(self):
-        username = os.getenv("USERNAME")
-        password = os.getenv("PASSWORD")
+    def login(self, username, password):
+        # username = os.getenv("USERNAME")
+        # password = os.getenv("PASSWORD")
         login_url = os.getenv("LOGIN_URL")
 
         self.driver.get(login_url)
@@ -42,11 +44,11 @@ class WebAutomation:
         login_button = self.driver.find_element(By.ID, "login")
         self.driver.execute_script("arguments[0].click();", login_button)
 
-    def fill_form(self):
-        username = os.getenv("USERNAME")
-        useremail = os.getenv("Email")
-        currentaddress = os.getenv("Currentaddress")
-        permanentaddress = os.getenv("Permanentaddress")
+    def fill_form(self, full_name, useremail, currentaddress, permanentaddress):
+        # username = os.getenv("USERNAME")
+        # useremail = os.getenv("Email")
+        # currentaddress = os.getenv("Currentaddress")
+        # permanentaddress = os.getenv("Permanentaddress")
 
         elements = WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located((By.XPATH, '//*[@id="app"]/div/div/div/div[1]/div/div/div[1]/span/div'))
@@ -61,7 +63,7 @@ class WebAutomation:
         fullname_field = WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located((By.ID, "userName"))
         )
-        fullname_field.send_keys(username)
+        fullname_field.send_keys(full_name)
 
         email_field = WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located((By.ID, "userEmail"))
@@ -93,9 +95,9 @@ class WebAutomation:
     def close(self):
         self.driver.quit()
 
-if __name__=="__main__":
-    wa = WebAutomation()
-    wa.login()
-    wa.fill_form()
-    wa.downloading()
-    wa.close()
+# if __name__=="__main__":
+#     wa = WebAutomation()
+#     wa.login()
+#     wa.fill_form()
+#     wa.downloading()
+#     wa.close()
